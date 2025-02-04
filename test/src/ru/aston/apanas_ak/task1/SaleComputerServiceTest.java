@@ -70,12 +70,7 @@ public class SaleComputerServiceTest {
             }
         }
         iSaleComputerService.saleComp(UUID.fromString(uuid1));
-        double resultSale = 0;
-        List<WarehouseDTO> list2 = iSaleComputerService.getInfoSaleComp();
-        for (WarehouseDTO warehouseDTO : list2) {
-            resultSale += warehouseDTO.getSalePrice();
-        }
-        boolean result = resultSale == 150;
+        boolean result = iSaleComputerService.moneyForSale() == 150;
         assertTrue(result);
     }
 }
