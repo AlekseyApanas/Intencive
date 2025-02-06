@@ -20,7 +20,7 @@ public class SaleComputerService implements ISaleComputerService {
     @Override
     public void saleComp(UUID uuid) {
         saleComp.add(iBuyComputerService.getComp(uuid));
-        iBuyComputerService.discount();
+        iBuyComputerService.discount(uuid);
         iBuyComputerService.saleComp(uuid);
     }
 

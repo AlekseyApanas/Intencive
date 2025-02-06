@@ -57,12 +57,14 @@ public class BuyComputerServiceTest {
         iBuyComputerService.buyComp(new WarehouseDTO(new UserDTO(17, "Misha", "Trik"), new ComputerDTO("Acer", 2022), 100.0));
         iBuyComputerService.buyComp(new WarehouseDTO(new UserDTO(15, "Vitya", "Aka"), new ComputerDTO("Acer", 2022), 100.0));
         List<WarehouseDTO> list = iBuyComputerService.getComputersInWarehouse();
+        String uuid1 = "5160a508-c6cd-4299-85ea-182cf7ba056d";
         for (WarehouseDTO buyComputerDTO : list) {
             if (Objects.equals("Misha", buyComputerDTO.getUser().getName())) {
                 buyComputerDTO.setDateOfReceipt(LocalDateTime.of(2018, Month.MAY, 15, 12, 15, 00));
+                buyComputerDTO.setUuid(UUID.fromString(uuid1));
             }
         }
-        iBuyComputerService.discount();
+        iBuyComputerService.discount(UUID.fromString(uuid1));
         double moneySale = 0;
         for (WarehouseDTO warehouseDTO : list) {
             moneySale += warehouseDTO.getSalePrice();

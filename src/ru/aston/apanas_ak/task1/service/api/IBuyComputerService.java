@@ -16,5 +16,5 @@ public interface IBuyComputerService {
 
      WarehouseDTO getComp(UUID uuid);
 
-    void discount();
+    void discount(UUID uuid);
 }

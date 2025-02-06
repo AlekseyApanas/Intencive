@@ -34,12 +34,16 @@ public class BuyComputerService implements IBuyComputerService {
     }
 
     @Override
-    public void discount() {
+    public void discount(UUID uuid) {
         LocalDateTime localDateTime = LocalDateTime.now();
         int year = localDateTime.getYear();
         for (WarehouseDTO buyComputerDTO : warehouse) {
-            if (buyComputerDTO.getDateOfReceipt().getYear() != year) {
-                buyComputerDTO.setSalePrice(buyComputerDTO.getSalePrice() * 0.9);
+            if (buyComputerDTO.getUuid().equals(uuid)) {
+                if (buyComputerDTO.getDateOfReceipt().getYear() != year) {
+                    buyComputerDTO.setSalePrice(buyComputerDTO.getSalePrice() * 0.9);
+                    break;
+                }
+                break;
             }
         }
     }
