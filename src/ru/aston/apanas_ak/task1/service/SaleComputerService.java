@@ -5,6 +5,7 @@ import ru.aston.apanas_ak.task1.service.api.IBuyComputerService;
 import ru.aston.apanas_ak.task1.service.api.ISaleComputerService;
 import ru.aston.apanas_ak.task1.util.SortByUserSurname;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -25,17 +26,17 @@ public class SaleComputerService implements ISaleComputerService {
     }
 
     @Override
-    public List getInfoSaleComp() {
+    public List<WarehouseDTO> getInfoSaleComp() {
         List<WarehouseDTO> sortList = new ArrayList<>(saleComp.stream().toList());
         sortList.sort(new SortByUserSurname());
         return sortList;
     }
 
     @Override
-    public double moneyForSale() {
-        double money = 0;
+    public BigDecimal moneyForSale() {
+        BigDecimal money = BigDecimal.valueOf(0);
         for (WarehouseDTO warehouseDTO : saleComp) {
-            money += warehouseDTO.getSalePrice();
+            money = money.add(warehouseDTO.getSalePrice());
         }
         return money;
     }

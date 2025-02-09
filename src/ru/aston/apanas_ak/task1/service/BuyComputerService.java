@@ -4,6 +4,7 @@ import ru.aston.apanas_ak.task1.dto.WarehouseDTO;
 import ru.aston.apanas_ak.task1.service.api.IBuyComputerService;
 import ru.aston.apanas_ak.task1.util.SortByUserSurname;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,16 +19,16 @@ public class BuyComputerService implements IBuyComputerService {
     }
 
     @Override
-    public double moneyInvestedInWarehouse() {
-        double money = 0;
+    public BigDecimal moneyInvestedInWarehouse() {
+        BigDecimal money = BigDecimal.valueOf(0);
         for (WarehouseDTO buyComputerDTO : warehouse) {
-            money += buyComputerDTO.getPurchasePrice();
+            money = money.add(buyComputerDTO.getPurchasePrice());
         }
         return money;
     }
 
     @Override
-    public List getComputersInWarehouse() {
+    public List<WarehouseDTO> getComputersInWarehouse() {
         List<WarehouseDTO> sortList = new ArrayList<>(warehouse.stream().toList());
         sortList.sort(new SortByUserSurname());
         return sortList;
@@ -38,11 +39,8 @@ public class BuyComputerService implements IBuyComputerService {
         LocalDateTime localDateTime = LocalDateTime.now();
         int year = localDateTime.getYear();
         for (WarehouseDTO buyComputerDTO : warehouse) {
-            if (buyComputerDTO.getUuid().equals(uuid)) {
-                if (buyComputerDTO.getDateOfReceipt().getYear() != year) {
-                    buyComputerDTO.setSalePrice(buyComputerDTO.getSalePrice() * 0.9);
-                    break;
-                }
+            if (buyComputerDTO.getUuid().equals(uuid) && buyComputerDTO.getDateOfReceipt().getYear() != year) {
+                buyComputerDTO.setSalePrice(buyComputerDTO.getSalePrice().multiply(BigDecimal.valueOf(0.9)));
                 break;
             }
         }
@@ -50,11 +48,7 @@ public class BuyComputerService implements IBuyComputerService {
 
     @Override
     public void saleComp(UUID uuid) {
-        for (WarehouseDTO warehouseDTO : warehouse) {
-            if (warehouseDTO.getUuid().equals(uuid)) {
-                warehouse.remove(warehouseDTO);
-            }
-        }
+        warehouse.removeIf(warehouseDTO -> warehouseDTO.getUuid().equals(uuid));
     }
 
     @Override
