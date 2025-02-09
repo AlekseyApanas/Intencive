@@ -1,5 +1,6 @@
 package ru.aston.apanas_ak.task1.dto;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
@@ -9,15 +10,15 @@ public class WarehouseDTO {
 
     private UserDTO user;
     private ComputerDTO pc;
-    private double purchasePrice;
+    private BigDecimal purchasePrice;
     private LocalDateTime dateOfReceipt;
-    private double salePrice;
+    private BigDecimal salePrice;
 
-    public WarehouseDTO(UserDTO user, ComputerDTO pc, double purchasePrice) {
+    public WarehouseDTO(UserDTO user, ComputerDTO pc, BigDecimal purchasePrice) {
         this.uuid = UUID.randomUUID();
         this.user = user;
         this.pc = pc;
-        this.salePrice = purchasePrice * 1.5;
+        this.salePrice = purchasePrice.multiply(BigDecimal.valueOf(1.5));
         this.dateOfReceipt = LocalDateTime.now();
         this.purchasePrice = purchasePrice;
     }
@@ -38,11 +39,11 @@ public class WarehouseDTO {
         this.pc = pc;
     }
 
-    public double getPurchasePrice() {
+    public BigDecimal getPurchasePrice() {
         return purchasePrice;
     }
 
-    public void setPurchasePrice(double purchasePrice) {
+    public void setPurchasePrice(BigDecimal purchasePrice) {
         this.purchasePrice = purchasePrice;
     }
 
@@ -54,11 +55,11 @@ public class WarehouseDTO {
         this.dateOfReceipt = dateOfReceipt;
     }
 
-    public double getSalePrice() {
+    public BigDecimal getSalePrice() {
         return salePrice;
     }
 
-    public void setSalePrice(double salePrice) {
+    public void setSalePrice(BigDecimal salePrice) {
         this.salePrice = salePrice;
     }
 
@@ -70,12 +71,13 @@ public class WarehouseDTO {
         this.uuid = uuid;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         WarehouseDTO that = (WarehouseDTO) o;
-        return Double.compare(that.purchasePrice, purchasePrice) == 0 && Double.compare(that.salePrice, salePrice) == 0 && Objects.equals(uuid, that.uuid) && Objects.equals(user, that.user) && Objects.equals(pc, that.pc) && Objects.equals(dateOfReceipt, that.dateOfReceipt);
+        return Objects.equals(uuid, that.uuid) && Objects.equals(user, that.user) && Objects.equals(pc, that.pc) && Objects.equals(purchasePrice, that.purchasePrice) && Objects.equals(dateOfReceipt, that.dateOfReceipt) && Objects.equals(salePrice, that.salePrice);
     }
 
     @Override

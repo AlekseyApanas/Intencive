@@ -8,6 +8,7 @@ import ru.aston.apanas_ak.task1.dto.WarehouseDTO;
 import ru.aston.apanas_ak.task1.service.BuyComputerService;
 import ru.aston.apanas_ak.task1.service.api.IBuyComputerService;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.List;
@@ -21,10 +22,10 @@ public class BuyComputerServiceTest {
 
     @Test
     public void buyComp() {
-        iBuyComputerService.buyComp(new WarehouseDTO(new UserDTO(15, "Aleksey", "Apanas"), new ComputerDTO("Acer", 2022), 100.0));
-        iBuyComputerService.buyComp(new WarehouseDTO(new UserDTO(16, "Grisha", "Pupkin"), new ComputerDTO("Acer", 2022), 100.0));
-        iBuyComputerService.buyComp(new WarehouseDTO(new UserDTO(17, "Misha", "Trik"), new ComputerDTO("Acer", 2022), 100.0));
-        iBuyComputerService.buyComp(new WarehouseDTO(new UserDTO(15, "Vitya", "Aka"), new ComputerDTO("Acer", 2022), 100.0));
+        iBuyComputerService.buyComp(new WarehouseDTO(new UserDTO(15, "Aleksey", "Apanas"), new ComputerDTO("Acer", 2022), BigDecimal.valueOf(100.0)));
+        iBuyComputerService.buyComp(new WarehouseDTO(new UserDTO(16, "Grisha", "Pupkin"), new ComputerDTO("Acer", 2022), BigDecimal.valueOf(100.0)));
+        iBuyComputerService.buyComp(new WarehouseDTO(new UserDTO(17, "Misha", "Trik"), new ComputerDTO("Acer", 2022), BigDecimal.valueOf(100.0)));
+        iBuyComputerService.buyComp(new WarehouseDTO(new UserDTO(15, "Vitya", "Aka"), new ComputerDTO("Acer", 2022), BigDecimal.valueOf(100.0)));
         boolean result = iBuyComputerService.getComputersInWarehouse().size() == 4;
         assertTrue(result);
     }
@@ -32,51 +33,66 @@ public class BuyComputerServiceTest {
 
     @Test
     public void moneyInvestedInWarehouse() {
-        iBuyComputerService.buyComp(new WarehouseDTO(new UserDTO(15, "Aleksey", "Apanas"), new ComputerDTO("Acer", 2022), 100.0));
-        iBuyComputerService.buyComp(new WarehouseDTO(new UserDTO(16, "Grisha", "Pupkin"), new ComputerDTO("Acer", 2022), 100.0));
-        iBuyComputerService.buyComp(new WarehouseDTO(new UserDTO(17, "Misha", "Trik"), new ComputerDTO("Acer", 2022), 100.0));
-        iBuyComputerService.buyComp(new WarehouseDTO(new UserDTO(15, "Vitya", "Aka"), new ComputerDTO("Acer", 2022), 100.0));
-        boolean result = iBuyComputerService.moneyInvestedInWarehouse() == 400.0;
-        assertTrue(result);
+        iBuyComputerService.buyComp(new WarehouseDTO(new UserDTO(15, "Aleksey", "Apanas"), new ComputerDTO("Acer", 2022), BigDecimal.valueOf(100.0)));
+        iBuyComputerService.buyComp(new WarehouseDTO(new UserDTO(16, "Grisha", "Pupkin"), new ComputerDTO("Acer", 2022), BigDecimal.valueOf(100.0)));
+        ;
+        iBuyComputerService.buyComp(new WarehouseDTO(new UserDTO(17, "Misha", "Trik"), new ComputerDTO("Acer", 2022), BigDecimal.valueOf(100.0)));
+        iBuyComputerService.buyComp(new WarehouseDTO(new UserDTO(15, "Vitya", "Aka"), new ComputerDTO("Acer", 2022), BigDecimal.valueOf(100.0)));
+        int result = iBuyComputerService.moneyInvestedInWarehouse().compareTo(BigDecimal.valueOf(400.0));
+        boolean res = false;
+        if (result == 0) {
+            res = true;
+        }
+        assertTrue(res);
     }
 
     @Test
     public void getComputersInWarehouse() {
-        iBuyComputerService.buyComp(new WarehouseDTO(new UserDTO(15, "Aleksey", "Apanas"), new ComputerDTO("Acer", 2022), 100.0));
-        iBuyComputerService.buyComp(new WarehouseDTO(new UserDTO(16, "Grisha", "Pupkin"), new ComputerDTO("Acer", 2022), 100.0));
-        iBuyComputerService.buyComp(new WarehouseDTO(new UserDTO(17, "Misha", "Trik"), new ComputerDTO("Acer", 2022), 100.0));
-        iBuyComputerService.buyComp(new WarehouseDTO(new UserDTO(15, "Vitya", "Aka"), new ComputerDTO("Acer", 2022), 100.0));
-        boolean result = iBuyComputerService.moneyInvestedInWarehouse() == 400.0;
-        assertTrue(result);
+        iBuyComputerService.buyComp(new WarehouseDTO(new UserDTO(15, "Aleksey", "Apanas"), new ComputerDTO("Acer", 2022), BigDecimal.valueOf(100.0)));
+        iBuyComputerService.buyComp(new WarehouseDTO(new UserDTO(16, "Grisha", "Pupkin"), new ComputerDTO("Acer", 2022), BigDecimal.valueOf(100.0)));
+        iBuyComputerService.buyComp(new WarehouseDTO(new UserDTO(17, "Misha", "Trik"), new ComputerDTO("Acer", 2022), BigDecimal.valueOf(100.0)));
+        iBuyComputerService.buyComp(new WarehouseDTO(new UserDTO(15, "Vitya", "Aka"), new ComputerDTO("Acer", 2022), BigDecimal.valueOf(100.0)));
+        int result = iBuyComputerService.moneyInvestedInWarehouse().compareTo(BigDecimal.valueOf(400.0));
+        boolean res = false;
+        if (result == 0) {
+            res = true;
+        }
+        assertTrue(res);
     }
 
     @Test
     public void discount() {
-        iBuyComputerService.buyComp(new WarehouseDTO(new UserDTO(15, "Aleksey", "Apanas"), new ComputerDTO("Acer", 2022), 100.0));
-        iBuyComputerService.buyComp(new WarehouseDTO(new UserDTO(16, "Grisha", "Pupkin"), new ComputerDTO("Acer", 2022), 100.0));
-        iBuyComputerService.buyComp(new WarehouseDTO(new UserDTO(17, "Misha", "Trik"), new ComputerDTO("Acer", 2022), 100.0));
-        iBuyComputerService.buyComp(new WarehouseDTO(new UserDTO(15, "Vitya", "Aka"), new ComputerDTO("Acer", 2022), 100.0));
+        iBuyComputerService.buyComp(new WarehouseDTO(new UserDTO(15, "Aleksey", "Apanas"), new ComputerDTO("Acer", 2022), BigDecimal.valueOf(100.0)));
+        iBuyComputerService.buyComp(new WarehouseDTO(new UserDTO(16, "Grisha", "Pupkin"), new ComputerDTO("Acer", 2022), BigDecimal.valueOf(100.0)));
+        iBuyComputerService.buyComp(new WarehouseDTO(new UserDTO(17, "Misha", "Trik"), new ComputerDTO("Acer", 2022), BigDecimal.valueOf(100.0)));
+        iBuyComputerService.buyComp(new WarehouseDTO(new UserDTO(15, "Vitya", "Aka"), new ComputerDTO("Acer", 2022), BigDecimal.valueOf(100.0)));
         List<WarehouseDTO> list = iBuyComputerService.getComputersInWarehouse();
+        String uuid1 = "5160a508-c6cd-4299-85ea-182cf7ba056d";
         for (WarehouseDTO buyComputerDTO : list) {
             if (Objects.equals("Misha", buyComputerDTO.getUser().getName())) {
                 buyComputerDTO.setDateOfReceipt(LocalDateTime.of(2018, Month.MAY, 15, 12, 15, 00));
+                buyComputerDTO.setUuid(UUID.fromString(uuid1));
             }
         }
-        iBuyComputerService.discount();
-        double moneySale = 0;
+        iBuyComputerService.discount(UUID.fromString(uuid1));
+        BigDecimal moneySale = BigDecimal.valueOf(0);
         for (WarehouseDTO warehouseDTO : list) {
-            moneySale += warehouseDTO.getSalePrice();
+            moneySale = moneySale.add(warehouseDTO.getSalePrice());
         }
-        boolean result = moneySale == 585.0;
-        assertTrue(result);
+        int result = moneySale.compareTo(BigDecimal.valueOf(585.0));
+        boolean res = false;
+        if (result == 0) {
+            res = true;
+        }
+        assertTrue(res);
     }
 
     @Test
     public void saleComp() {
-        iBuyComputerService.buyComp(new WarehouseDTO(new UserDTO(15, "Aleksey", "Apanas"), new ComputerDTO("Acer", 2022), 100.0));
-        iBuyComputerService.buyComp(new WarehouseDTO(new UserDTO(16, "Grisha", "Pupkin"), new ComputerDTO("Acer", 2022), 100.0));
-        iBuyComputerService.buyComp(new WarehouseDTO(new UserDTO(17, "Misha", "Trik"), new ComputerDTO("Acer", 2022), 100.0));
-        iBuyComputerService.buyComp(new WarehouseDTO(new UserDTO(15, "Vitya", "Aka"), new ComputerDTO("Acer", 2022), 100.0));
+        iBuyComputerService.buyComp(new WarehouseDTO(new UserDTO(15, "Aleksey", "Apanas"), new ComputerDTO("Acer", 2022), BigDecimal.valueOf(100.0)));
+        iBuyComputerService.buyComp(new WarehouseDTO(new UserDTO(16, "Grisha", "Pupkin"), new ComputerDTO("Acer", 2022), BigDecimal.valueOf(100.0)));
+        iBuyComputerService.buyComp(new WarehouseDTO(new UserDTO(17, "Misha", "Trik"), new ComputerDTO("Acer", 2022), BigDecimal.valueOf(100.0)));
+        iBuyComputerService.buyComp(new WarehouseDTO(new UserDTO(15, "Vitya", "Aka"), new ComputerDTO("Acer", 2022), BigDecimal.valueOf(100.0)));
         List<WarehouseDTO> list = iBuyComputerService.getComputersInWarehouse();
         String uuid1 = "5160a508-c6cd-4299-85ea-182cf7ba056d";
         for (WarehouseDTO buyComputerDTO : list) {
@@ -91,11 +107,11 @@ public class BuyComputerServiceTest {
 
     @Test
     public void getComp() {
-        iBuyComputerService.buyComp(new WarehouseDTO(new UserDTO(15, "Aleksey", "Apanas"), new ComputerDTO("Acer", 2022), 100.0));
-        iBuyComputerService.buyComp(new WarehouseDTO(new UserDTO(16, "Grisha", "Pupkin"), new ComputerDTO("Acer", 2022), 100.0));
-        WarehouseDTO warehouseDTO = (new WarehouseDTO(new UserDTO(17, "Misha", "Trik"), new ComputerDTO("Acer", 2022), 100.0));
+        iBuyComputerService.buyComp(new WarehouseDTO(new UserDTO(15, "Aleksey", "Apanas"), new ComputerDTO("Acer", 2022), BigDecimal.valueOf(100.0)));
+        iBuyComputerService.buyComp(new WarehouseDTO(new UserDTO(16, "Grisha", "Pupkin"), new ComputerDTO("Acer", 2022), BigDecimal.valueOf(100.0)));
+        WarehouseDTO warehouseDTO = (new WarehouseDTO(new UserDTO(17, "Misha", "Trik"), new ComputerDTO("Acer", 2022), BigDecimal.valueOf(100.0)));
         iBuyComputerService.buyComp(warehouseDTO);
-        iBuyComputerService.buyComp(new WarehouseDTO(new UserDTO(15, "Vitya", "Aka"), new ComputerDTO("Acer", 2022), 100.0));
+        iBuyComputerService.buyComp(new WarehouseDTO(new UserDTO(15, "Vitya", "Aka"), new ComputerDTO("Acer", 2022), BigDecimal.valueOf(100.0)));
         List<WarehouseDTO> list = iBuyComputerService.getComputersInWarehouse();
         String uuid1 = "5160a508-c6cd-4299-85ea-182cf7ba056d";
         for (WarehouseDTO buyComputerDTO : list) {
