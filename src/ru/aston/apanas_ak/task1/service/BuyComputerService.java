@@ -36,7 +36,7 @@ public class BuyComputerService implements IBuyComputerService {
     public void discount(UUID uuid) {
         LocalDateTime localDateTime = LocalDateTime.now();
         int year = localDateTime.getYear();
-        if (warehouse.stream().map(WarehouseDTO::getUuid).toList().contains(uuid)) {
+        if (warehouse.stream().map(WarehouseDTO::getUuid).anyMatch(e -> e.equals(uuid))) {
             warehouse.replaceAll(e -> {
                 if (e.getUuid().equals(uuid) && e.getDateOfReceipt().getYear() != year) {
                     e.setSalePrice(e.getSalePrice().multiply(BigDecimal.valueOf(0.9)));
@@ -50,7 +50,7 @@ public class BuyComputerService implements IBuyComputerService {
 
     @Override
     public void saleComp(UUID uuid) {
-        if (warehouse.stream().map(WarehouseDTO::getUuid).toList().contains(uuid)) {
+        if (warehouse.stream().map(WarehouseDTO::getUuid).anyMatch(e->e.equals(uuid))) {
             warehouse.removeIf(warehouseDTO -> warehouseDTO.getUuid().equals(uuid));
         } else {
             throw new CheckUuidException("Такого uuid не существует");
