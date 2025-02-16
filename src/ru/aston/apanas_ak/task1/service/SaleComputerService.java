@@ -27,17 +27,14 @@ public class SaleComputerService implements ISaleComputerService {
 
     @Override
     public List<WarehouseDTO> getInfoSaleComp() {
-        List<WarehouseDTO> sortList = new ArrayList<>(saleComp.stream().toList());
-        sortList.sort(new SortByUserSurname());
-        return sortList;
+        return saleComp.stream().sorted(new SortByUserSurname()).toList();
     }
 
     @Override
     public BigDecimal moneyForSale() {
-        BigDecimal money = BigDecimal.valueOf(0);
-        for (WarehouseDTO warehouseDTO : saleComp) {
-            money = money.add(warehouseDTO.getSalePrice());
+        if (saleComp.isEmpty()) {
+            return BigDecimal.ZERO;
         }
-        return money;
+        return saleComp.stream().map(WarehouseDTO::getSalePrice).reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 }
