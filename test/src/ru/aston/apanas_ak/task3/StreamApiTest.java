@@ -4,10 +4,12 @@ import org.junit.jupiter.api.Test;
 
 
 import java.io.File;
+import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.*;
 
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
@@ -466,31 +468,89 @@ public class StreamApiTest<T> {
     @Test
     public void task53() {
         Stream.of(12, 123, 1234, 12345)
-                .map(element -> String.valueOf(element).chars().map(e -> Character.getNumericValue(e)).sum()).filter(n -> n == 3).forEach(out::println);
+                .map(element -> String.valueOf(element).chars().map(Character::getNumericValue).sum()).filter(n -> n == 3).forEach(out::println);
     }
 
     //    Создание Stream строк и поиск всех строк, у которых длина равна заданному числу и которые состоят из определенного набора символов.
     @Test
     public void task54() {
         Stream.of("aaa", "d123d", "^", "123", "#", "ooo", "!").filter(s -> s.matches("[a-z0-9]+") && s.length() > 3).forEach(out::println);
+
     }
 
-//    Создание Stream пар чисел и поиск всех пар, у которых произведение равно заданному числу или которые удовлетворяют другому условию.
-//    Создание Stream коллекций и поиск всех коллекций, которые содержат определенный элемент или удовлетворяют другому условию.
-//    Сгруппировать элементы Stream по их чётности, посчитать размер каждой группы и вывести результаты.
-//    Сгруппировать слова в Stream по первой букве, посчитать количество слов в каждой группе и вывести результаты в виде словаря, где ключ — первая буква слова, а значение — количество слов, начинающихся на эту букву.
-//    Сгруппировать числа в Stream по остатку от деления на 3, посчитать сумму чисел в каждой группе и вывести результаты.
-//    Сгруппировать даты в Stream по месяцу, посчитать количество дат в каждом месяце и вывести результаты в виде календаря с количеством событий в каждом месяце.
-//    Сгруппировать файлы в Stream по расширению, посчитать количество файлов с каждым расширением и вывести результаты в виде списка, где ключ — расширение файла, а значение — количество файлов с таким расширением.
-//    Сгруппировать пользователей в Stream по городу проживания, посчитать количество пользователей из каждого города и вывести результаты в виде карты мира с количеством пользователей из каждого города.
-//    Сгруппировать продукты в Stream по категории, посчитать стоимость продуктов в каждой категории и вывести результаты в виде таблицы, где столбец — категория продукта, а строка — стоимость продуктов в этой категории.
-//    Для любого набора случайно-сгенерированных чисел нужно определить количество парных. Для решения задачи использовать средства программного интерфейса Stream API.
-//    Задано множество фамилий сотрудников. Разработать программу, которая отображает все фамилии, начинающиеся на букву «J» . Задачу решить с использованием Stream API.
-//    Задан массив строк. Используя средства StreamAPI отсортировать строки в лексикографическом порядке.
-//    Соберите все элементы Stream в одну строку через пробел и выведите результат.
-//    Соберите слова в Stream в один текст, где каждое слово начинается с большой буквы и выведите результат.
-//    Соберите числа в Stream в одно число, перемножив их между собой и выведите результат.
-//    Соберите даты в Stream в одну дату, сложив дни, месяцы и годы и выведите результат.
-//    Соберите файлы в Stream в одну папку, сложив их расширения и выведите результат.
-//    Соберите продукты в Stream в один продукт, сложив цены и категории и выведите результат.
+    //    Создание Stream пар чисел и поиск всех пар, у которых произведение равно заданному числу или которые удовлетворяют другому условию.
+    @Test
+    public void task55() {
+        int[] array = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+        Arrays.stream(array).boxed()
+                .mapToInt(i -> i.intValue())
+                .mapToObj(j -> IntStream.of(array).mapToObj(n -> new int[]{j, n}))
+                .flatMap(e -> e).filter(arr -> arr[0] * arr[1] == 8)
+                .forEach(n -> out.println(n[0] + " * " + n[1] + "= 8"));
+
+    }
+
+    //    Создание Stream коллекций и поиск всех коллекций, которые содержат определенный элемент или удовлетворяют другому условию.
+    @Test
+    public void task56() {
+
+        Stream.of(List.of(1), List.of(1, 2), List.of(1, 2, 3)).filter(n -> n.contains(1) && n.size() == 2).forEach(out::println);
+    }
+
+    //    Сгруппировать элементы Stream по их чётности, посчитать размер каждой группы и вывести результаты.
+    @Test
+    public void task57() {
+        IntStream.range(0, 20).boxed().collect(Collectors.groupingBy(n -> n % 2 == 0, Collectors.counting())).forEach((a, b) -> {
+            if (a) {
+                out.println("Чётные " + b + " Количество: " + b);
+            } else if (!a) {
+                out.println("Нечётные " + b + " Количество: " + b);
+            }
+        });
+    }
+
+    //    Сгруппировать слова в Stream по первой букве, посчитать количество слов в каждой группе и вывести результаты в виде словаря, где ключ — первая буква слова, а значение — количество слов, начинающихся на эту букву.
+    @Test
+    public void task58() {
+        out.println(Stream.of("aaa", "ddd", "cccc", "mmm", "uuu", "ooo", "iii", "iii222").collect(Collectors.groupingBy(n -> n.charAt(0), Collectors.counting())));
+    }
+
+    //    Сгруппировать числа в Stream по остатку от деления на 3, посчитать сумму чисел в каждой группе и вывести результаты.
+    @Test
+    public void task59() {
+        out.println(IntStream.range(0, 10).boxed().collect(Collectors.groupingBy(n -> n % 3, Collectors.counting())));
+    }
+
+    //    Сгруппировать даты в Stream по месяцу, посчитать количество дат в каждом месяце и вывести результаты в виде календаря с количеством событий в каждом месяце.
+    @Test
+    public void task60() {
+        List<LocalDate> list = Stream.of(LocalDate.of(2025, 1, 1),
+                LocalDate.of(2025, 6, 1), LocalDate.of(2025, 9, 1),
+                LocalDate.of(2025, 2, 1), LocalDate.of(2025, 2, 1)).toList();
+        out.println(list.stream().collect(Collectors.groupingBy(LocalDate::getMonthValue, Collectors.counting())));
+
+    }
+
+    //    Сгруппировать файлы в Stream по расширению, посчитать количество файлов с каждым расширением и вывести результаты в виде списка, где ключ — расширение файла, а значение — количество файлов с таким расширением.
+    @Test
+    public void task61() {
+        List<File> list = Stream.of(new File("file.txt"), new File("file2.txt"), new File("file3.doc")).toList();
+        out.println(list.stream().collect(Collectors.groupingBy(e -> e.getName().split("\\.")[1], Collectors.counting())));
+    }
+
+    //    Сгруппировать пользователей в Stream по городу проживания, посчитать количество пользователей из каждого города и вывести результаты в виде карты мира с количеством пользователей из каждого города.
+    @Test
+    public void task62() {
+        List<User> list = List.of(new User(12, "Минск"), new User(13, "Минск"), new User(15, "Москва"));
+        out.println(list.stream().collect(Collectors.groupingBy(User::getCity, Collectors.counting())));
+    }
+
+    //    Сгруппировать продукты в Stream по категории, посчитать стоимость продуктов в каждой категории и вывести результаты в виде таблицы, где столбец — категория продукта, а строка — стоимость продуктов в этой категории.
+    @Test
+    public void task63() {
+        List<Product> list = List.of(new Product("Молоко", "скоропорт", new BigDecimal(12)),
+                new Product("Кефир", "скоропорт", new BigDecimal(4)),
+                new Product("Колбаса", "мясо", new BigDecimal(60)));
+        out.println(list.stream().collect(Collectors.toMap(Product::getCategory, Product::getPrice, BigDecimal::add)));
+    }
 }
